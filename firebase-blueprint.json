@@ -1,0 +1,49 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user account details and roles.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["user", "driver"] },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    },
+    "BusLocation": {
+      "title": "Bus Location",
+      "description": "Real-time coordinate data for an active bus.",
+      "type": "object",
+      "properties": {
+        "driverId": { "type": "string" },
+        "driverName": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["driverId", "location", "status"]
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile data."
+    },
+    "/buses/{busId}": {
+      "schema": "BusLocation",
+      "description": "Live bus location tracking data."
+    }
+  }
+}
